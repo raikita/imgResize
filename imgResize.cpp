@@ -1,10 +1,34 @@
+/**
+ * imgResize resizes images to height of 300px or width of 500px (in that order)
+ *
+ * Input folder to be used as an argument
+ *
+ */
+
+
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int main(int argc, char** argv) {
+
+  // exit if folder not inputted
+  if (sizeof(argv) < 2) {
+    std::cout << "Enter folder path with images to be mass-resized.\n" <<
+    "Exiting..." << std::endl;
+    return 0;
+  }
+
+  // make sure folder is accessable
+  struct stat info;
+  if (stat(argv[1], &info) != 0) {
+    std::cout << "Cannot access " << argv[1] << std::endl;
+    return -1;
+  }
 
   cv::Mat inImage;
   cv::Mat outImage;
